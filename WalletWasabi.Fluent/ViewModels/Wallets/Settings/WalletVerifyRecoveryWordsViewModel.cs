@@ -78,7 +78,7 @@ public partial class WalletVerifyRecoveryWordsViewModel : RoutableViewModel
 		catch (Exception ex)
 		{
 			Logger.LogError(ex);
-			await ShowErrorAsync(Title, ex.ToUserFriendlyString(), "Wasabi was unable to verify the recovery words.");
+			await ShowErrorAsync(Title, ex.ToUserFriendlyString(), "Kovara was unable to verify the recovery words.");
 		}
 	}
 

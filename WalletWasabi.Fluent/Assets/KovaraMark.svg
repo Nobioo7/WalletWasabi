@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" viewBox="0 0 560 160" role="img" aria-labelledby="title desc">
+  <title id="title">Kovara Wallet</title>
+  <desc id="desc">Purple hexagonal K mark followed by Kovara Wallet wordmark.</desc>
+  <rect width="560" height="160" rx="28" fill="#101827"/>
+  <path d="M88 24 140 54v60l-52 30-52-30V54z" fill="#8B5CF6"/>
+  <path d="M70 52h14v64H70zm16 27 24-27h20l-30 34 31 30h-20L86 87z" fill="#F8FAFC"/>
+  <text x="176" y="90" fill="#F8FAFC" font-family="Inter,Segoe UI,sans-serif" font-size="42" font-weight="700" letter-spacing="2">KOVARA</text>
+  <text x="177" y="122" fill="#A78BFA" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="600" letter-spacing="5">WALLET</text>
+</svg>

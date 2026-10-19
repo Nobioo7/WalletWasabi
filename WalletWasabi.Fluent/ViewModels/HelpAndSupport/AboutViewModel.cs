@@ -6,8 +6,8 @@ using WalletWasabi.Helpers;
 namespace WalletWasabi.Fluent.ViewModels.HelpAndSupport;
 
 [NavigationMetaData(
-	Title = "About Wasabi",
-	Caption = "Display Wasabi's current info",
+	Title = "About Kovara",
+	Caption = "Kovara Wallet version and project information",
 	IconName = "info_regular",
 	Order = 4,
 	Category = "Help & Support",
@@ -30,49 +30,49 @@ public partial class AboutViewModel : RoutableViewModel
 				new LinkViewModel(UiContext)
 				{
 					Link = DocsLink,
-					Description = "Documentation",
+					Description = "Original project documentation",
 					IsClickable = true
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = SourceCodeLink,
-					Description = "Source Code (GitHub)",
+					Description = "Kovara source code (GitHub)",
 					IsClickable = true
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = ClearnetLink,
-					Description = "Website (Clearnet)",
+					Description = "Original project website (Clearnet)",
 					IsClickable = true
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = TorLink,
-					Description = "Website (Tor)",
+					Description = "Original project website (Tor)",
 					IsClickable = false
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = UserSupportLink,
-					Description = "User Support",
+					Description = "Original project community support",
 					IsClickable = true
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = BugReportLink,
-					Description = "Bug Report",
+					Description = "Report an upstream bug",
 					IsClickable = true
 				},
 				new SeparatorViewModel(UiContext),
 				new LinkViewModel(UiContext)
 				{
 					Link = FAQLink,
-					Description = "FAQ",
+					Description = "Original project FAQ",
 					IsClickable = true
 				},
 			};
@@ -111,7 +111,7 @@ public partial class AboutViewModel : RoutableViewModel
 
 	public static string TorLink => "http://wasabiukrxmkdgve5kynjztuovbg43uxcbcxn6y2okcrsg7gb6jdmbad.onion";
 
-	public static string SourceCodeLink => "https://github.com/WalletWasabi/WalletWasabi/";
+	public static string SourceCodeLink => "https://github.com/Nobioo7/WalletWasabi/";
 
 	public static string UserSupportLink => "https://github.com/WalletWasabi/WalletWasabi/discussions/5185";
 

@@ -8,7 +8,7 @@
           Language="!(loc.Language)"
           Version="$(var.BuildVersion)"
           Manufacturer="!(loc.Company)"
-          UpgradeCode="{D8E80773-D8CF-4031-B8B3-AA750AF0B413}">
+          UpgradeCode="{379BD27C-1881-4371-A272-128F8FE65650}">
 
     <!-- Provide package details. -->
     <Package
@@ -29,7 +29,7 @@
             IgnoreRemoveFailure="yes" />
 
     <!-- Upgrade: Define version range to be detected for upgrade -->
-    <Upgrade Id="{D8E80773-D8CF-4031-B8B3-AA750AF0B413}">
+    <Upgrade Id="{379BD27C-1881-4371-A272-128F8FE65650}">
       <UpgradeVersion
               OnlyDetect="no"
               Property="PREVIOUSVERSIONSINSTALLED"
@@ -46,7 +46,7 @@
     <!-- Define main app icon. -->
     <Icon
             Id="icon.ico"
-            SourceFile="$(var.DesktopProjectDir)\Assets\WasabiLogo.ico" />
+            SourceFile="$(var.DesktopProjectDir)\Assets\KovaraMark.ico" />
 
     <!-- Add/Remove programs: https://www.firegiant.com/wix/tutorial/com-expression-syntax-miscellanea/add-or-remove-programs-entries/ -->
     <!-- any comments -->
@@ -80,7 +80,7 @@
     </UI>
 
     <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Thank you for helping the world staying private." />
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Wasabi Wallet" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Kovara Wallet" />
 
     <Property Id="WixShellExecTarget" Value="[INSTALLFOLDER]wassabee.exe" />
     <CustomAction Id="LaunchApplication"
@@ -89,7 +89,7 @@
                   Impersonate="yes" />
 
     <!-- Define components, shortcuts, files, etc... for installer. -->
-    <Feature Id="ProductFeature" Title="Wasabi" Level="1">
+    <Feature Id="ProductFeature" Title="Kovara Wallet" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="PublishedComponents" />
     </Feature>

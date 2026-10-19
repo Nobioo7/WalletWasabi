@@ -22,7 +22,7 @@
     </DockPanel>
 
     <DockPanel
-      ToolTip.Tip="Wasabi will download blocks from this full node.">
+      ToolTip.Tip="Kovara will download blocks from this full node.">
       <TextBlock Text="Bitcoin RPC Endpoint" />
         <TextBox Text="{Binding BitcoinRpcUri}">
           <Interaction.Behaviors>

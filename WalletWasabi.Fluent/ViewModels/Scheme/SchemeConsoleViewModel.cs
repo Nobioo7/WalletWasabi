@@ -10,7 +10,7 @@ namespace WalletWasabi.Fluent.ViewModels.Scheme;
 
 [NavigationMetaData(
 	Title = "Scripting",
-	Caption = "Automate Wasabi",
+	Caption = "Automate Kovara",
 	IconName = "nav_wallet_24_regular",
 	Order = 3,
 	Category = "General",

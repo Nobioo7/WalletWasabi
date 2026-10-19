@@ -89,7 +89,7 @@ public partial class RecoverWalletViewModel : RoutableViewModel
 
 				await ShowErrorAsync(
 					"Restart required",
-					"Wasabi needs to download older block filters for this wallet. The application will restart to begin this process.",
+					"Kovara needs to download older block filters for this wallet. The application will restart to begin this process.",
 					"Wallet recovery");
 				AppLifetimeHelper.Shutdown(withShutdownPrevention: true, restart: true);
 				return;
@@ -100,7 +100,7 @@ public partial class RecoverWalletViewModel : RoutableViewModel
 		catch (Exception ex)
 		{
 			Logger.LogError(ex);
-			await ShowErrorAsync(Title, ex.ToUserFriendlyString(), "Wasabi was unable to recover the wallet.");
+			await ShowErrorAsync(Title, ex.ToUserFriendlyString(), "Kovara was unable to recover the wallet.");
 		}
 
 		IsBusy = false;

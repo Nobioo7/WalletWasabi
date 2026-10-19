@@ -73,7 +73,7 @@ public partial class WalletNamePageViewModel : RoutableViewModel
 		}
 		catch (Exception ex)
 		{
-			await ShowErrorAsync("Import wallet", ex.ToUserFriendlyString(), "Wasabi was unable to import your wallet.");
+			await ShowErrorAsync("Import wallet", ex.ToUserFriendlyString(), "Kovara was unable to import your wallet.");
 			BackCommand.Execute(null);
 		}
 	}

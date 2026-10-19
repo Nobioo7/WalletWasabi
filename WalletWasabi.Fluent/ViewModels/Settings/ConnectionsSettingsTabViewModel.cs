@@ -22,7 +22,7 @@ namespace WalletWasabi.Fluent.ViewModels.Settings;
 	Keywords = new[]
 	{
 			"Settings", "Connections", "URI", "Exchange", "Rate", "Provider", "Fee", "Estimation", "Network", "Anonymization",
-			"Tor", "Terminate", "Wasabi", "Shut", "Reset"
+			"Tor", "Terminate", "Kovara", "Shut", "Reset"
 	},
 	IconName = "settings_general_regular")]
 public partial class ConnectionsSettingsTabViewModel : RoutableViewModel

@@ -50,7 +50,7 @@ COORDINATOR_EXECUTABLE_NAME="wcoordinator"
 PACKAGES_DIR="$ROOT_DIR/packages"
 
 # Common name for all packages
-PACKAGE_FILE_NAME_PREFIX="Wasabi-$VERSION"
+PACKAGE_FILE_NAME_PREFIX="Kovara-$VERSION"
 
 if [[ "$RUNNER_OS" == "Windows" ]]; then
   ZIP="7z.exe a"
@@ -218,7 +218,7 @@ for PLATFORM in "${PLATFORMS[@]}"; do
          --owner=0 \
          --group=0 \
          --numeric-owner \
-         --transform="s|^$BASE_NAME|WasabiWallet|" \
+         --transform="s|^$BASE_NAME|KovaraWallet|" \
          --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
          -pczf $PACKAGES_DIR/$PACKAGE_FILE_NAME.tar.gz \
          -C "$PARENT_DIR" \
@@ -238,7 +238,7 @@ done
 if [ "$CREATE_DEBIAN_PACKAGE" = "yes" ]; then
 # Create .deb package
 
-for DEBIAN_ZIP_PACKAGE in $PACKAGES_DIR/Wasabi*linux*.zip; do
+for DEBIAN_ZIP_PACKAGE in $PACKAGES_DIR/Kovara*linux*.zip; do
 
 # Combine paths
 CURRENT_ARCH=$(echo "$DEBIAN_ZIP_PACKAGE" | grep -o 'arm64\|x64')
@@ -266,7 +266,7 @@ mkdir -p $DEBIAN_BIN
 mkdir -p $DEBIAN_USR/share/{applications,icons/hicolor}
 
 # Copy icon files
-for ICON_FILE in ./Contrib/Assets/WasabiLogo*.png; do
+for ICON_FILE in ./Contrib/Assets/KovaraMark*.png; do
   SIZE=$(echo "$ICON_FILE" | grep -oP '\d+')
   ICON_DIR="$DEBIAN_USR/share/icons/hicolor/${SIZE}x${SIZE}/apps"
   mkdir -p "$ICON_DIR"
@@ -280,11 +280,11 @@ DEBIAN_PACKAGE_SIZE=$(du -ks --apparent-size "${BUILD_DIR}/${DEBIAN_FULL_PLATFOR
 DEBIAN_CONTROL_FILE_CONTENT="Package: ${EXECUTABLE_NAME}
 Priority: optional
 Section: utils
-Maintainer: Wasabi Wallet Team
+Maintainer: Kovara Wallet maintainers
 Version: ${VERSION}
-Homepage: https://wasabiwallet.io
-Vcs-Git: git://github.com/WalletWasabi/WalletWasabi.git
-Vcs-Browser: https://github.com/WalletWasabi/WalletWasabi
+Homepage: https://github.com/Nobioo7/WalletWasabi
+Vcs-Git: https://github.com/Nobioo7/WalletWasabi.git
+Vcs-Browser: https://github.com/Nobioo7/WalletWasabi
 Architecture: ${DEBIAN_CONTROL_FILE_ARCHITECTURE}
 License: Open Source (MIT)
 Installed-Size: ${DEBIAN_PACKAGE_SIZE}
@@ -296,7 +296,7 @@ echo "${DEBIAN_CONTROL_FILE_CONTENT}" > $DEBIAN/control
 
 # Post-installation script content
 USR_LOCAL_BIN_DIR="/usr/local/bin"
-INSTALL_DIR="${USR_LOCAL_BIN_DIR}/wasabiwallet"
+INSTALL_DIR="${USR_LOCAL_BIN_DIR}/kovarawallet"
 DEBIAN_POST_INST_SCRIPT_CONTENT="#!/usr/bin/env sh
 ${INSTALL_DIR}/BundledApps/Binaries/${DEBIAN_FULL_PLATFORM_NAME}/hwi installudevrules
 exit 0"
@@ -306,15 +306,15 @@ chmod 0775 ${DEBIAN}/postinst
 # Create the desktop file content
 DEBIAN_DESKTOP_CONTENT="[Desktop Entry]
 Type=Application
-Name=Wasabi Wallet
-StartupWMClass=Wasabi Wallet
+Name=Kovara Wallet
+StartupWMClass=Kovara Wallet
 GenericName=Bitcoin Wallet
 Comment=Privacy focused Bitcoin wallet.
 Icon=${EXECUTABLE_NAME}
 Terminal=false
 Exec=${EXECUTABLE_NAME}
 Categories=Office;Finance;
-Keywords=bitcoin;wallet;crypto;blockchain;wasabi;privacy;anon;awesome;"
+Keywords=bitcoin;wallet;crypto;blockchain;kovara;privacy;anon;awesome;"
 
 # Write the content to the file
 DEBIAN_DESKTOP="${DEBIAN_USR}/share/applications/${EXECUTABLE_NAME}.desktop"
@@ -322,7 +322,7 @@ echo "${DEBIAN_DESKTOP_CONTENT}" > $DEBIAN_DESKTOP
 chmod 0644 $DEBIAN_DESKTOP
 
 # Copy the build to into the debian package structure
-cp -a "${BUILD_DIR}/${DEBIAN_FULL_PLATFORM_NAME}" $DEBIAN_BIN/wasabiwallet
+cp -a "${BUILD_DIR}/${DEBIAN_FULL_PLATFORM_NAME}" $DEBIAN_BIN/kovarawallet
 
 # Create wrapper scripts
 echo "#!/usr/bin/env sh
@@ -332,14 +332,14 @@ echo "#!/usr/bin/env sh
 \"${INSTALL_DIR}/${EXECUTABLE_NAME}d\" \"\$@\"" > ${DEBIAN_BIN}/${EXECUTABLE_NAME}d
 
 # Remove execution to everything except for executables and their wrapper scripts
-chmod 0755 ${DEBIAN_BIN}/wasabiwallet
-find ${DEBIAN_BIN}/wasabiwallet -type f -exec chmod 644 {} \;
-find ${DEBIAN_BIN}/wasabiwallet -type d -not -path ${DEBIAN_BIN}/wasabiwallet -exec chmod 755 {} \;
-chmod 0755 ${DEBIAN_BIN}/wasabiwallet/${EXECUTABLE_NAME}{,d}
+chmod 0755 ${DEBIAN_BIN}/kovarawallet
+find ${DEBIAN_BIN}/kovarawallet -type f -exec chmod 644 {} \;
+find ${DEBIAN_BIN}/kovarawallet -type d -not -path ${DEBIAN_BIN}/kovarawallet -exec chmod 755 {} \;
+chmod 0755 ${DEBIAN_BIN}/kovarawallet/${EXECUTABLE_NAME}{,d}
 chmod 0755 ${DEBIAN_BIN}/${EXECUTABLE_NAME}{,d}
 
 # Make bundled binaries executable (hwi and tor)
-DEBIAN_BUNDLED_BINARIES="${DEBIAN_BIN}/wasabiwallet/BundledApps/Binaries/${DEBIAN_FULL_PLATFORM_NAME}"
+DEBIAN_BUNDLED_BINARIES="${DEBIAN_BIN}/kovarawallet/BundledApps/Binaries/${DEBIAN_FULL_PLATFORM_NAME}"
 chmod 0755 "${DEBIAN_BUNDLED_BINARIES}/hwi"
 chmod 0755 "${DEBIAN_BUNDLED_BINARIES}/Tor/tor"
 
@@ -349,7 +349,7 @@ if [[ "$PACKAGE_COORDINATOR" == "yes" ]]; then
   \"${INSTALL_DIR}/${COORDINATOR_EXECUTABLE_NAME}\" \"\$@\"" > ${DEBIAN_BIN}/${COORDINATOR_EXECUTABLE_NAME}
 
   # Remove execution to everything except for executables and their wrapper scripts
-  chmod 0755 ${DEBIAN_BIN}/wasabiwallet/${COORDINATOR_EXECUTABLE_NAME}
+  chmod 0755 ${DEBIAN_BIN}/kovarawallet/${COORDINATOR_EXECUTABLE_NAME}
   chmod 0755 ${DEBIAN_BIN}/${COORDINATOR_EXECUTABLE_NAME}
 
 fi
@@ -405,7 +405,7 @@ popd || exit
 
 APPIMAGETOOL="$APPIMAGETOOL_DIR/appimagetool"
 
-for LINUX_ZIP_PACKAGE in $PACKAGES_DIR/Wasabi*linux*.zip; do
+for LINUX_ZIP_PACKAGE in $PACKAGES_DIR/Kovara*linux*.zip; do
 
 # Determine architecture from package name
 CURRENT_ARCH=$(echo "$LINUX_ZIP_PACKAGE" | grep -o 'arm64\|x64')
@@ -436,7 +436,7 @@ mkdir -p "$APPDIR_USR/share/icons/hicolor"
 cp -a "${BUILD_DIR}/${APPIMAGE_FULL_PLATFORM_NAME}/." "$APPDIR_BIN/"
 
 # Copy icon files to AppDir
-for ICON_FILE in ./Contrib/Assets/WasabiLogo*.png; do
+for ICON_FILE in ./Contrib/Assets/KovaraMark*.png; do
   SIZE=$(echo "$ICON_FILE" | grep -oP '\d+')
   ICON_DIR="$APPDIR_USR/share/icons/hicolor/${SIZE}x${SIZE}/apps"
   mkdir -p "$ICON_DIR"
@@ -444,20 +444,20 @@ for ICON_FILE in ./Contrib/Assets/WasabiLogo*.png; do
 done
 
 # Copy the 256x256 icon to the root of AppDir (required by AppImage spec)
-cp "./Contrib/Assets/WasabiLogo256.png" "$APPDIR/$EXECUTABLE_NAME.png"
+cp "./Contrib/Assets/KovaraMark256.png" "$APPDIR/$EXECUTABLE_NAME.png"
 
 # Create the desktop file
 APPIMAGE_DESKTOP_CONTENT="[Desktop Entry]
 Type=Application
-Name=Wasabi Wallet
-StartupWMClass=Wasabi Wallet
+Name=Kovara Wallet
+StartupWMClass=Kovara Wallet
 GenericName=Bitcoin Wallet
 Comment=Privacy focused Bitcoin wallet.
 Icon=${EXECUTABLE_NAME}
 Terminal=false
 Exec=${EXECUTABLE_NAME}
 Categories=Office;Finance;
-Keywords=bitcoin;wallet;crypto;blockchain;wasabi;privacy;anon;awesome;"
+Keywords=bitcoin;wallet;crypto;blockchain;kovara;privacy;anon;awesome;"
 
 echo "${APPIMAGE_DESKTOP_CONTENT}" > "$APPDIR/$EXECUTABLE_NAME.desktop"
 chmod 0644 "$APPDIR/$EXECUTABLE_NAME.desktop"
@@ -555,13 +555,13 @@ fi
 #------------------------------------------------------------------------------------#
 if [ "$CREATE_OSX_DMG" = "yes" ]; then
 
-for OSX_ZIP_PACKAGE in $PACKAGES_DIR/Wasabi*macOS*.zip; do
+for OSX_ZIP_PACKAGE in $PACKAGES_DIR/Kovara*macOS*.zip; do
 # Combine paths
 CURRENT_ARCH=$(echo "$OSX_ZIP_PACKAGE" | grep -o 'arm64\|x64')
 ZIP_PACKAGE=$(basename "$OSX_ZIP_PACKAGE")
 OSX_BUILD_DIR="$BUILD_DIR/$ZIP_PACKAGE/osx"
 DMG_PATH="$OSX_BUILD_DIR/dmg"
-APP_NAME="Wasabi Wallet.app"
+APP_NAME="Kovara Wallet.app"
 APP_PATH="$DMG_PATH/$APP_NAME"
 APP_CONTENTS_PATH="$APP_PATH/Contents"
 APP_MACOS_PATH="$APP_CONTENTS_PATH/MacOS"
@@ -589,7 +589,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 		<string>$PLIST_ARCHITECTURE</string>
 	</array>
 	<key>CFBundleIconFile</key>
-	<string>WasabiLogo.icns</string>
+	<string>KovaraMark.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -599,9 +599,9 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<key>CFBundleExecutable</key>
 	<string>wassabee</string>
 	<key>CFBundleName</key>
-	<string>Wasabi Wallet</string>
+	<string>Kovara Wallet</string>
 	<key>CFBundleIdentifier</key>
-	<string>zksnacks.wasabiwallet</string>
+	<string>io.kovara.wallet</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSAppleScriptEnabled</key>
@@ -643,7 +643,7 @@ echo '
 </plist>' > "$ENTITLEMENTS_PATH"
 
 #Add logo
-cp ./Contrib/Assets/WasabiLogo.icns "$APP_RES_PATH/WasabiLogo.icns"
+cp ./Contrib/Assets/KovaraMark.icns "$APP_RES_PATH/KovaraMark.icns"
 cp -r ./Contrib/Assets/.background "$DMG_PATH/.background"
 cp ./Contrib/Assets/.DS_Store.dat "$DMG_PATH/.DS_Store"
 
@@ -731,12 +731,12 @@ if [ "$CURRENT_ARCH" = "arm64" ]; then
   DMG_ARCH_NAME="-arm64"
 fi
 
-DMG_UNZIPPED_FILE_PATH="$OSX_BUILD_DIR/Wasabi.tmp.dmg"
+DMG_UNZIPPED_FILE_PATH="$OSX_BUILD_DIR/Kovara.tmp.dmg"
 DMG_FILE_PATH="$DMG_PATH/$PACKAGE_FILE_NAME_PREFIX$DMG_ARCH_NAME.dmg"
 
 # Create the dmg
 ln -s /Applications "$DMG_PATH"
-hdiutil create "$DMG_UNZIPPED_FILE_PATH" -ov -volname "Wasabi Wallet" -fs HFS+ -srcfolder "$DMG_PATH"
+hdiutil create "$DMG_UNZIPPED_FILE_PATH" -ov -volname "Kovara Wallet" -fs HFS+ -srcfolder "$DMG_PATH"
 hdiutil convert "$DMG_UNZIPPED_FILE_PATH" -format UDZO -o "$DMG_FILE_PATH"
 
 codesign $SIGN_ARGUMENTS "$DMG_FILE_PATH"
