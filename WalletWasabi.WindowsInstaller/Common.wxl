@@ -9,5 +9,5 @@
 
   <String Id="Description">Privacy focused Bitcoin wallet.</String>
   <String Id="Keywords">bitcoin,cryptocurrency,blockchain,privacy,fungibility,anonymity</String>
-  <String Id="Comments">Easy Peasy Lemon Squeezey</String>
+  <String Id="Comments">Kovara Wallet desktop application.</String>
 </WixLocalization>

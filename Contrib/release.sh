@@ -537,17 +537,28 @@ mkdir -p "$BUILD_INSTALLER_DIR"
 # Remove unwanted file
 rm $PACKAGES_DIR/*.wixpdb
 
-# Define paths (using your existing variables)
+# Sign only when Kovara's signing credentials are configured. The upstream
+# Wasabi signing identity must never be used for Kovara releases.
 SIGNTOOL="azuresigntool"
-
-"$SIGNTOOL" sign \
-    -kvu "https://wasabiwallet.vault.azure.net/" \
-    -kvc "WasabiCodeSignCert" \
-    -kvi "$AZURE_CLIENT_ID" \
-    -kvs "$AZURE_CLIENT_SECRET" \
-    --azure-key-vault-tenant-id "$AZURE_TENANT_ID" \
-    -tr "http://timestamp.digicert.com" \
-    "$PACKAGES_DIR/$PACKAGE_FILE_NAME_PREFIX.msi"
+if [[ -n "${KOVARA_AZURE_KEY_VAULT_URL:-}" || -n "${KOVARA_AZURE_CERTIFICATE_NAME:-}" || -n "${AZURE_CLIENT_ID:-}" || -n "${AZURE_CLIENT_SECRET:-}" || -n "${AZURE_TENANT_ID:-}" ]]; then
+  : "${KOVARA_AZURE_KEY_VAULT_URL:?Set Kovara's Azure Key Vault URL to sign the installer}"
+  : "${KOVARA_AZURE_CERTIFICATE_NAME:?Set Kovara's Azure certificate name to sign the installer}"
+  : "${AZURE_CLIENT_ID:?Set the Azure client ID to sign the installer}"
+  : "${AZURE_CLIENT_SECRET:?Set the Azure client secret to sign the installer}"
+  : "${AZURE_TENANT_ID:?Set the Azure tenant ID to sign the installer}"
+  set +x
+  "$SIGNTOOL" sign \
+      -kvu "$KOVARA_AZURE_KEY_VAULT_URL" \
+      -kvc "$KOVARA_AZURE_CERTIFICATE_NAME" \
+      -kvi "$AZURE_CLIENT_ID" \
+      -kvs "$AZURE_CLIENT_SECRET" \
+      --azure-key-vault-tenant-id "$AZURE_TENANT_ID" \
+      -tr "http://timestamp.digicert.com" \
+      "$PACKAGES_DIR/$PACKAGE_FILE_NAME_PREFIX.msi"
+  set -x
+else
+  echo "Kovara signing credentials are not configured; producing an unsigned MSI."
+fi
 fi
 
 #------------------------------------------------------------------------------------#
@@ -676,7 +687,7 @@ chmod u+x "${EXECUTABLES[@]}"
 
 CERT_PATH="MacCertificate.cer"
 P12_PATH="MacP12.p12"
-PROFILE_NAME="WasabiNotarize"
+PROFILE_NAME="KovaraNotarize"
 
 KEYCHAIN_NAME="build.keychain-db"
 KEYCHAIN_PATH="$HOME/Library/Keychains/$KEYCHAIN_NAME"
@@ -705,7 +716,7 @@ for file in "${ALL_FILES[@]}"; do
   codesign $SIGN_ARGUMENTS "$file"
 done
 
-if ! codesign -dv --verbose=4 "$APP_PATH" 2>&1 | grep -q 'Authority=Developer ID Application: zkSNACKs Ltd.'; then
+if ! codesign -dv --verbose=4 "$APP_PATH" 2>&1 | grep -Fq "Authority=${MAC_SIGNING_AUTHORITY:?Set MAC_SIGNING_AUTHORITY to Kovara's Developer ID Application authority}"; then
     echo "App signing verification failed"
     security delete-keychain ${KEYCHAIN_NAME}
     exit 1
@@ -714,7 +725,7 @@ fi
 # Notarization
 ditto -c -k --keepParent "$APP_PATH" "$APP_NOTARIZE_FILE_PATH"
 
-xcrun notarytool submit --wait --apple-id "${MAC_APPLEID}" -p "WasabiNotarize" "$APP_NOTARIZE_FILE_PATH"
+xcrun notarytool submit --wait --apple-id "${MAC_APPLEID}" -p "$PROFILE_NAME" "$APP_NOTARIZE_FILE_PATH"
 
 # Stapling
 spctl -a -t exec -vv "$APP_PATH"
@@ -741,14 +752,14 @@ hdiutil convert "$DMG_UNZIPPED_FILE_PATH" -format UDZO -o "$DMG_FILE_PATH"
 
 codesign $SIGN_ARGUMENTS "$DMG_FILE_PATH"
 
-if ! codesign -dv --verbose=4 "$DMG_FILE_PATH" 2>&1 | grep -q 'Authority=Developer ID Application: zkSNACKs Ltd.'; then
+if ! codesign -dv --verbose=4 "$DMG_FILE_PATH" 2>&1 | grep -Fq "Authority=${MAC_SIGNING_AUTHORITY:?Set MAC_SIGNING_AUTHORITY to Kovara's Developer ID Application authority}"; then
     echo "DMG signing verification failed"
     security delete-keychain ${KEYCHAIN_NAME}
     exit 1
 fi
 
 # Notarization and verification
-if ! xcrun notarytool submit --wait --apple-id "${MAC_APPLEID}" -p "WasabiNotarize" "$DMG_FILE_PATH" | grep -q "Accepted"; then
+if ! xcrun notarytool submit --wait --apple-id "${MAC_APPLEID}" -p "$PROFILE_NAME" "$DMG_FILE_PATH" | grep -q "Accepted"; then
     echo "DMG notarization failed"
     security delete-keychain ${KEYCHAIN_NAME}
     exit 1
