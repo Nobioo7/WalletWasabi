@@ -18,7 +18,7 @@ dotnet build
 To run the desktop application:
 
 ```powershell
-dotnet run --project WalletWasabi.Fluent.Desktop
+dotnet run
 ```
 
 The original project documentation remains available at [docs.wasabiwallet.io](https://docs.wasabiwallet.io/).
