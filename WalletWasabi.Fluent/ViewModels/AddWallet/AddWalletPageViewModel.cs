@@ -84,7 +84,7 @@ public partial class AddWalletPageViewModel : DialogViewModelBase<Unit>
 		catch (Exception ex)
 		{
 			Logger.LogError(ex);
-			await ShowErrorAsync("Import wallet", ex.ToUserFriendlyString(), "Wasabi was unable to import your wallet.");
+			await ShowErrorAsync("Import wallet", ex.ToUserFriendlyString(), "Kovara was unable to import your wallet.");
 		}
 	}
 

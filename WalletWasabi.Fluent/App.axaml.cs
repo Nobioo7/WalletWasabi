@@ -23,7 +23,7 @@ public class App : Application
 
 	public App()
 	{
-		Name = "Wasabi Wallet";
+		Name = "Kovara Wallet";
 	}
 
 	public App(Func<Task> backendInitializeAsync, bool startInBg) : this()

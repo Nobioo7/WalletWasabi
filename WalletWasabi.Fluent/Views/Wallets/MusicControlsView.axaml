@@ -58,7 +58,7 @@
             </Style>
           </StackPanel.Styles>
           <ThemeImage Height="35" Width="35" VerticalAlignment="Center" HorizontalAlignment="Center"
-                      Source="{DynamicResource wasabi_logo_dynamic}" />
+                      Source="{DynamicResource kovara_logo_dynamic}" />
           <Panel>
             <StackPanel Orientation="Horizontal" Spacing="20" IsVisible="{Binding WalletModel.IsCoinJoinEnabled}">
               <StackPanel Spacing="5">

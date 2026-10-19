@@ -77,7 +77,7 @@ public class Program
 		try
 		{
 			var app = WasabiAppBuilder
-				.Create("Wasabi GUI", args)
+				.Create("Kovara GUI", args)
 				.EnsureSingleInstance()
 				.OnUnhandledExceptions(LogUnhandledException)
 				.OnUnobservedTaskExceptions(LogUnobservedTaskException)
@@ -199,7 +199,7 @@ public class Program
 
 		return result
 			.With(new Win32PlatformOptions { RenderingMode = new[] { Win32RenderingMode.Software } })
-			.With(new X11PlatformOptions { RenderingMode = new[] { X11RenderingMode.Software }, WmClass = "Wasabi Wallet Crash Report" })
+			.With(new X11PlatformOptions { RenderingMode = new[] { X11RenderingMode.Software }, WmClass = "Kovara Wallet Crash Report" })
 			.With(new AvaloniaNativePlatformOptions { RenderingMode = new[] { AvaloniaNativeRenderingMode.Software } })
 			.With(new MacOSPlatformOptions { ShowInDock = true })
 			.AfterSetup(_ => ThemeHelper.ApplyTheme(Theme.Dark));
@@ -224,7 +224,7 @@ public static class WasabiAppExtensions
 					RxApp.MainThreadScheduler.Schedule(() => throw new ApplicationException("Exception has been thrown in unobserved ThrownExceptions", ex));
 				});
 
-				Logger.LogInfo("Wasabi GUI started.");
+				Logger.LogInfo("Kovara GUI started.");
 				bool runGuiInBackground = app.AppConfig.Arguments.Any(arg => arg.Contains(StartupHelper.SilentArgument));
 				UiConfig uiConfig = LoadOrCreateUiConfig(Config.DataDir);
 				var services = Services.Create(app.Global, uiConfig, app.TerminateService);
